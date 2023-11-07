@@ -10,7 +10,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mongodb';
+    // protected $connection = 'mongodb';
 
-    protected $collection = 'posts';
+    // protected $collection = 'posts';
 }

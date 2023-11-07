@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Posts;
 use App\Models\Apis\Post;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ class PostController extends Controller
     public function get_posts()
     {
         $posts = Post::all();
-        return response()->json($posts);
+        return Posts::collection($posts)->additional(['status' => true]);
     }
 
 
@@ -27,7 +28,7 @@ class PostController extends Controller
 
         $save = $addpost->save();
         if ($save) {
-            return response()->json($addpost);
+            return response()->json(['message' => 'Post has been Added.', 'data' => $addpost]);
         }
     }
 
@@ -53,6 +54,8 @@ class PostController extends Controller
         $del = Post::find($id)->delete();
         if ($del) {
             return response()->json(['message' => 'Post has been deleted.'], 200);
+        } else {
+            return response()->json(['message' => 'Post Not Found'], 404);
         }
     }
 }
